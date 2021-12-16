@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Posts{% endblock title %}
+
+{% block content %}
+
+{% if posts %}
+{% for post in posts %}
+		
+		<div class="posts-content">
+		    <div class="row">
+		    	<div class="col-lg-12 col-md-12 col-sm-12">
+		            <div class="card mb-4">
+		              <div class="card-body">
+		                <div class="media mb-3">
+		              		<a href="{% url 'account:dashboard_view' post.user.profile.pk %}">
+		              			<img src="{{ post.user.profile.profile_pic.url }}" class="d-block rounded-circle" alt=""style="
+		              			width: 40px !important; height: auto;">
+		              		</a>
+		                  <div class="media-body ml-3">
+		                  	<a href="{% url 'account:dashboard_view' post.user.profile.pk %}" style="text-decoration: none; color: inherit;">
+		                    	{{ post.user }}
+		                	</a>
+		                    <div class="text-muted small">{{ post.created }}</div>
+		                  </div>
+		                </div>
+													
+													<div class="col-lg-12 col-md-12 col-sm-12 text-center">		                
+
+                            {% thumbnail post.image "280" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                            {% endthumbnail %}
+                    
+                            <p style="margin-top: 10px;">
+                              {{ post.post_caption }}
+                            </p>
+                          </div>
+
+                      </div>
+		              <div class="card-footer">
+		                <a href="{{ post.get_absolute_url }}" class="btn btn-outline-info" style="text-decoration: none;">
+		                    Detail
+		                </a>
+		                
+		              </div>
+		            </div>
+		        </div>
+		      </div>
+		</div>
+
+{% endfor %}
+{% else %}
+<h3 class="text-center" style="margin-top: 40px;">Follow users to see their posts</h3>
+{% endif %}
+
+{% endblock content %}

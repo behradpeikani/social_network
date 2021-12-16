@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4" style="margin-top: 20px;">
+	{% for follower in followers %}
+	<div class="col">
+		<div class="card radius-15">
+			<div class="card-body text-center">
+				<div class="p-4 border radius-15">
+					<img src="{{ follower.profile.profile_pic.url }}" width="110" height="110" class="rounded-circle shadow" alt="">
+					<h5 class="mb-0 mt-5">{{ follower.profile.user.username }}</h5>
+					<p class="mb-3">{{ follower.user.first_name }} {{ follower.user.last_name }}</p>
+					<div class="d-grid"> <a href="{% url 'account:dashboard_view' follower.pk %}" class="btn btn-outline-primary radius-15">View</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock content %}

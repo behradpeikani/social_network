@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Post{% endblock title %}
+
+{% block content %}
+    <h4 class="text-center alert alert-info" style="margin-top: 20px;">Add Post</h4>   
+    <form method="post" enctype="multipart/form-data" style="margin-top: 20px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-info" >Add</button>
+    </form>
+{% endblock content %}
+    
+    

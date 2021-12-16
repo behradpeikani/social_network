@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}{{ user.username }}{% endblock title %}
+
+{% block content %}
+{% if self_dash %}
+
+<a style="text-decoration: none;" href="{% url 'posts:add_post' request.user.pk %}">
+   <button style="margin: 10px 0 10px 0;" class="btn btn-info btn-lg btn-block">Add Post</button>
+</a>
+
+<a style="text-decoration: none;" href="{% url 'account:edit_profile' request.user.pk %}">
+   <button style="margin: 10px 0 10px 0;" class="btn btn-info btn-lg btn-block">Edit Profile</button>
+</a>
+
+<hr>
+
+{% endif %}
+
+<div class="text-center" style="margin-top: 20px;">
+   <img src="{{ user.profile.profile_pic.url }}" style="max-width: 200px;
+    max-height:200px; margin: 0 auto; border-radius: 50%;">
+</div>
+
+<h3 class="text-center">{{ user.username }}</h3>
+<h5>{{ user.first_name }} {{ user.last_name }}</h5>
+{% if user.profile.bio %}
+   <p>{{ user.profile.bio }}</p>
+{% endif %}
+<p>number of posts: {{ user.profile.get_number_of_posts }}</p>
+
+
+<div class="mb-3">
+   <a href="{% url 'account:followers_list' user.profile.pk %}" style="text-decoration: none; color: inherit;">
+      <p>Followers: {{ number_of_followers }}</p>
+   </a>
+   {% if not user == request.user %}
+   {% if is_following %}
+      <form method="post" action="{% url 'account:unfollow' user.profile.pk %}">
+         {% csrf_token %}
+         <button class="btn btn-outline-danger">Unfollow</button>
+      </form>
+   {% else %}
+      <form method="post" action="{% url 'account:follow' user.profile.pk %}">
+         {% csrf_token %}
+         <button class="btn btn-outline-success">Follow</button>
+      </form>
+   {% endif %}
+   {% endif %}
+</div>
+
+
+<hr>
+{% for post in posts %}
+<div class="thumbnails" style="display: inline;">
+   {% if post.image %}
+
+   {% thumbnail post.image "300" crop="center" as im %}
+         <a href="{{ post.get_absolute_url }}">
+            <img style="margin-bottom: 15px;" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+         </a>
+   {% endthumbnail %}
+
+   {% endif %}
+</div>
+   {% empty %}
+   <h1 class="text-center" style="margin-bottom: 40px;">No Post</h1>
+{% endfor %}
+
+    
+{% endblock content %}
+    
+    

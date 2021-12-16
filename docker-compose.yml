@@ -1,0 +1,46 @@
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=socialproject
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=yourpassword
+    networks:
+      - main
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - social_network:/var/lib/postgresql/data
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    networks: 
+      - main
+    restart: always
+    ports:
+      - "6379:6379"
+
+  app:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn core.wsgi -b 0.0.0.0:8000"
+    volumes:
+      - .:/src/
+    depends_on:
+      - postgres
+      - redis
+    expose:
+      - "8000"
+    networks: 
+      - main
+    restart: always
+
+
+networks:
+  main:
+volumes:
+  social_network:
+

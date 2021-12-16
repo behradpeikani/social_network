@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} All Profiles {% endblock title %}
+
+{% block content %}
+
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4" style="margin-top: 20px;">
+	{% for profile in profiles %}
+	{% if not profile.user.is_staff %}
+	<div class="col">
+		<div class="card radius-15">
+			<div class="card-body text-center">
+				<div class="p-4 border radius-15">
+					<img src="{{ profile.profile_pic.url }}" width="110" height="110" class="rounded-circle shadow" alt="">
+					<h5 class="mb-0 mt-5">{{ profile.user.username }}</h5>
+					<p class="mb-3">{{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+					<div class="d-grid"> <a href="{% url 'account:dashboard_view' profile.pk %}" class="btn btn-outline-primary radius-15">View</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% endfor %}
+</div>
+
+
+</div>
+
+
+
+
+
+
+{% endblock content %}

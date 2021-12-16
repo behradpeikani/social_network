@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Edit Profile {% endblock title %}
+
+{% block content %}
+<h4 class="text-center alert alert-info" style="margin-top: 20px;">Edit Profile</h4>
+<form method="post" novalidate enctype="multipart/form-data" style="margin-top: 20px;">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit" class="btn btn-info">Edit</button>
+</form>
+{% endblock content %}

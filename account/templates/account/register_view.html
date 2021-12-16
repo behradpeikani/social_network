@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block content %}
+<h4 class="text-center alert alert-info" style="margin-top: 20px;">Register</h4>
+<form method="post" novalidate enctype="multipart/form-data">
+	{% csrf_token %}
+	{% for field in form %}		
+		<label for="exampleInputPassword1">{{ field.label }}</label>
+		{{ field }}
+	{% endfor %}
+	<br>
+	<button type="submit" class="btn btn-primary">Submit</button><br><br>
+	<p>Already have an account? <a href="{% url 'account:login_view' %}" style="text-decoration: none;">login</a></p>
+</form>
+{% endblock content %}
