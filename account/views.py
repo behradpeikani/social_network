@@ -55,7 +55,7 @@ def login_view(request):
                 messages.success(request, 'You logged in')
                 return redirect('posts:posts_list')
             else:
-                return messages.error(request, 'Invalid username or password! try again.', 'warning')
+                messages.error(request, 'Invalid username or password! try again.', 'warning')
     else:
         form = LoginForm()
 
